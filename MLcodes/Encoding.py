@@ -39,5 +39,13 @@ def word2vecmodel(corpus, stopwords, lowercase, skip_gram, vector_size, window_s
     model = Word2Vec(data, min_count=1, vector_size=vector_size, sg=skip_gram, window=window_size)
     return model
 
-def glovedict():
-    pass
+def glovedict(glove_file_path):
+    embedding_index = {}
+    f = open(glove_file_path, encoding="utf8")
+    for line in f:
+        values = line.split()
+        word =values[0]
+        coefs = np.asarray(values[1:], dtype='float32')
+        embedding_index[word] = coefs
+    f.close()
+    return embedding_index
