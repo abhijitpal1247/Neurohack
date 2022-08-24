@@ -1,10 +1,12 @@
+import os
 import warnings
+import numpy as np
 from nltk.tokenize import sent_tokenize, word_tokenize
 from gensim.models import Word2Vec
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 
- 
+
 warnings.filterwarnings(action = 'ignore')
 
 
@@ -36,3 +38,6 @@ def word2vecmodel(corpus, stopwords, lowercase, skip_gram, vector_size, window_s
         data.append(temp)
     model = Word2Vec(data, min_count=1, vector_size=vector_size, sg=skip_gram, window=window_size)
     return model
+
+def glovedict():
+    pass
