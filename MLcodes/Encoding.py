@@ -39,4 +39,5 @@ def word2vecmodel(corpus, stopwords, lowercase, skip_gram, vector_size, window_s
     model = Word2Vec(data, min_count=1, vector_size=vector_size, sg=skip_gram, window=window_size)
     return model
 
-def glove
+def glovedict():
+    pass
