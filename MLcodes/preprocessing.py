@@ -4,6 +4,12 @@ from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse
+from textblob import TextBlob
+ 
+nltk.download('stopwords')
+nltk.download('punkt')
+nltk.download('wordnet')
+
  
 def contraction_expander(text):
     contractions = { 
@@ -130,9 +136,6 @@ def contraction_expander(text):
             text = text.replace(word, contractions[word.lower().strip()])
     return text
 
-nltk.download('stopwords')
-nltk.download('punkt')
-nltk.download('wordnet')
 def stopwords_removal(text):
     filtered_text = []
     stopwords_set = set(stopwords.words())
@@ -171,3 +174,10 @@ def url_remover(text):
     filtered_url_text = [l for l in text.split() if not urlparse(l).scheme]
     url_removed_txt = ' '.join(filtered_url_text)
     return url_removed_txt
+
+def noun_exctraction(text):
+    blob = TextBlob(text)
+    noun_phrases = []
+    for nouns in blob.noun_phrases:
+        noun_phrases.append(nouns)
+    return " ".join(noun_phrases)
