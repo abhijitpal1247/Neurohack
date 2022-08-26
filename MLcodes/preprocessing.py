@@ -3,7 +3,8 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from bs4 import BeautifulSoup
-
+from urllib.parse import urlparse
+ 
 def contraction_expander(text):
     contractions = { 
         "ain\\'t": "am not / are not / is not / has not / have not",
@@ -155,4 +156,18 @@ def email_remover(text):
     pattern = r"[a-z0-9\.\-+_]+@[a-z0-9\.\-+_]+\.[a-z]+"
     email_removed_text = re.sub(pattern=pattern, repl='', string=text)
     return email_removed_text
-    
+
+def incident_id_remover(text):
+    pattern = r"INC\d*"
+    incident_id_removed_text = re.sub(pattern, '', text)
+    return incident_id_removed_text
+
+def digit_remover(text):
+    pattern = r"\d+"
+    digit_removed_text = re.sub(pattern, '', text)
+    return digit_removed_text
+
+def url_remover(text):
+    filtered_url_text = [l for l in text.split() if not urlparse(l).scheme]
+    url_removed_txt = ' '.join(filtered_url_text)
+    return url_removed_txt
