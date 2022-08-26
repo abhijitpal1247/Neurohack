@@ -1,3 +1,6 @@
+import nltk
+from nltk.corpus import stopwords
+
 def contraction_expander(text):
     contractions = { 
         "ain\\'t": "am not / are not / is not / has not / have not",
@@ -122,3 +125,15 @@ def contraction_expander(text):
         if word.lower().strip() in contractions.keys():
             text = text.replace(word, contractions[word.lower().strip()])
     return text
+
+nltk.download('stopwords')
+nltk.download('punkt')
+nltk.download('wordnet')
+def stopwords_removal(text):
+    filtered_text = []
+    stopwords_set = set(stopwords.words())
+    for word in text.split():
+        if word not in stopwords_set:
+            filtered_text.append(word)
+    return " ".join(filtered_text)
+

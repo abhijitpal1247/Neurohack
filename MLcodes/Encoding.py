@@ -8,6 +8,9 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 
 warnings.filterwarnings(action = 'ignore')
+nltk.download('stopwords')
+nltk.download('punkt')
+nltk.download('wordnet')
 
 
 def countvectorizer(corpus, stopwords, lowercase, ngram_range, max_features):
