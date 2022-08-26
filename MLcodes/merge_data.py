@@ -3,8 +3,8 @@ import pandas as pd
 from tqdm import tqdm
 #%%
 tqdm.pandas()
-df_data1 = pd.read_excel('official_data//Tag_Data//Data_1.xlsx')
-df_data2 = pd.read_excel('official_data//Tag_Data//Data_2.xlsx',sheet_name=1)
+df_data1 = pd.read_excel('..//official_data//Tag_Data//Data_1.xlsx')
+df_data2 = pd.read_excel('..//official_data//Tag_Data//Data_2.xlsx',sheet_name=1)
 #%%
 # %% concatenate columns
 cols = ['Short description', 'Description', 'Category', 'Subcategory']
