@@ -1,5 +1,6 @@
 import nltk
 from nltk.corpus import stopwords
+from bs4 import BeautifulSoup
 
 def contraction_expander(text):
     contractions = { 
@@ -137,3 +138,5 @@ def stopwords_removal(text):
             filtered_text.append(word)
     return " ".join(filtered_text)
 
+def removal_html_tags(text):
+    return BeautifulSoup(text, 'html.parser').get_text()
