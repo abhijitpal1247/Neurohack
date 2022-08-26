@@ -139,8 +139,10 @@ def contraction_expander(text):
 def stopwords_removal(text):
     filtered_text = []
     stopwords_set = set(stopwords.words())
+    words_to_add=['hi','team']
+    stopwords_set.update(words_to_add)
     for word in text.split():
-        if word not in stopwords_set:
+        if word.lower() not in stopwords_set:
             filtered_text.append(word)
     return " ".join(filtered_text)
 
@@ -157,17 +159,17 @@ def removal_html_tags(text):
 
 def email_remover(text):
     pattern = r"[a-z0-9\.\-+_]+@[a-z0-9\.\-+_]+\.[a-z]+"
-    email_removed_text = re.sub(pattern=pattern, repl='', string=text)
+    email_removed_text = re.sub(pattern=pattern, repl=' ', string=text)
     return email_removed_text
 
 def incident_id_remover(text):
     pattern = r"INC\d*"
-    incident_id_removed_text = re.sub(pattern, '', text)
+    incident_id_removed_text = re.sub(pattern, ' ', text)
     return incident_id_removed_text
 
 def digit_remover(text):
     pattern = r"\d+"
-    digit_removed_text = re.sub(pattern, '', text)
+    digit_removed_text = re.sub(pattern, ' ', text)
     return digit_removed_text
 
 def url_remover(text):
