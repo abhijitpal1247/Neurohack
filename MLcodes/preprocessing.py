@@ -177,7 +177,7 @@ def url_remover(text):
     url_removed_txt = ' '.join(filtered_url_text)
     return url_removed_txt
 
-def noun_exctraction(text):
+def noun_extraction(text):
     blob = TextBlob(text)
     noun_phrases = []
     for nouns in blob.noun_phrases:
@@ -185,5 +185,11 @@ def noun_exctraction(text):
     return " ".join(noun_phrases)
 
 def special_character_removal(text):
+<<<<<<< HEAD
     cleanString = re.sub('\W+',' ', text )
     return cleanString
+=======
+    cleanString = re.sub('\W+','', text )
+    return cleanString
+    
+>>>>>>> d39480adab146938358155c1ecafe6ab4fa89eaf
