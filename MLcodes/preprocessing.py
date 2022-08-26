@@ -183,6 +183,5 @@ def noun_extraction(text):
     return " ".join(noun_phrases)
 
 def special_character_removal(text):
-    cleanString = re.sub('\W+','', text )
+    cleanString = re.sub('\W+',' ', text )
     return cleanString
-    
