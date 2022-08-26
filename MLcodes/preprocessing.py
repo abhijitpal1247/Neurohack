@@ -1,5 +1,7 @@
 import nltk
 from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
+  
 
 def contraction_expander(text):
     contractions = { 
@@ -136,4 +138,12 @@ def stopwords_removal(text):
         if word not in stopwords_set:
             filtered_text.append(word)
     return " ".join(filtered_text)
+
+
+def lemmatize(text):
+    lemmatizer = WordNetLemmatizer()
+    lemmatized_text=[]
+    for word in text.lower().split():
+        lemmatized_text.append(lemmatizer.lemmatize(word))
+    return " ".join(lemmatized_text)
 
