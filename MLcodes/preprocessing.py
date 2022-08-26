@@ -1,7 +1,7 @@
+import re
 import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
-  
 from bs4 import BeautifulSoup
 
 def contraction_expander(text):
@@ -150,3 +150,9 @@ def lemmatize(text):
 
 def removal_html_tags(text):
     return BeautifulSoup(text, 'html.parser').get_text()
+
+def email_remover(text):
+    pattern = r"[a-z0-9\.\-+_]+@[a-z0-9\.\-+_]+\.[a-z]+"
+    email_removed_text = re.sub(pattern=pattern, repl='', string=text)
+    return email_removed_text
+    
