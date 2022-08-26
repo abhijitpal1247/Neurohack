@@ -1,7 +1,11 @@
 import nltk
 from nltk.corpus import stopwords
+<<<<<<< HEAD
 from nltk.stem import WordNetLemmatizer
   
+=======
+from bs4 import BeautifulSoup
+>>>>>>> f28fb76f58579b1253ca145b6dd95e10d15e68e8
 
 def contraction_expander(text):
     contractions = { 
@@ -147,3 +151,5 @@ def lemmatize(text):
         lemmatized_text.append(lemmatizer.lemmatize(word))
     return " ".join(lemmatized_text)
 
+def removal_html_tags(text):
+    return BeautifulSoup(text, 'html.parser').get_text()
