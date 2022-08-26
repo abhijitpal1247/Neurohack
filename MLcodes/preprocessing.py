@@ -1,6 +1,16 @@
+import re
 import nltk
 from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
+from bs4 import BeautifulSoup
+from urllib.parse import urlparse
+from textblob import TextBlob
+ 
+nltk.download('stopwords')
+nltk.download('punkt')
+nltk.download('wordnet')
 
+ 
 def contraction_expander(text):
     contractions = { 
         "ain\\'t": "am not / are not / is not / has not / have not",
@@ -98,7 +108,7 @@ def contraction_expander(text):
         "where\\'s": "where has / where is",
         "where\\'ve": "where have",
         "who\\'ll": "who shall / who will",
-        "who\\'ll\'ve": "who shall have / who will have",
+        "who\\'ll\\'ve": "who shall have / who will have",
         "who\\'s": "who has / who is",
         "who\\'ve": "who have",
         "why\\'s": "why has / why is",
@@ -115,7 +125,7 @@ def contraction_expander(text):
         "y\\'all\\'re": "you all are",
         "y\\'all\\'ve": "you all have",
         "you\\'d": "you had / you would",
-        "you\\'d\'ve": "you would have",
+        "you\\'d\\'ve": "you would have",
         "you\\'ll": "you shall / you will",
         "you\\'ll\\'ve": "you shall have / you will have",
         "you\\'re": "you are",
@@ -126,9 +136,6 @@ def contraction_expander(text):
             text = text.replace(word, contractions[word.lower().strip()])
     return text
 
-nltk.download('stopwords')
-nltk.download('punkt')
-nltk.download('wordnet')
 def stopwords_removal(text):
     filtered_text = []
     stopwords_set = set(stopwords.words())
@@ -137,3 +144,40 @@ def stopwords_removal(text):
             filtered_text.append(word)
     return " ".join(filtered_text)
 
+
+def lemmatize(text):
+    lemmatizer = WordNetLemmatizer()
+    lemmatized_text=[]
+    for word in text.lower().split():
+        lemmatized_text.append(lemmatizer.lemmatize(word))
+    return " ".join(lemmatized_text)
+
+def removal_html_tags(text):
+    return BeautifulSoup(text, 'html.parser').get_text()
+
+def email_remover(text):
+    pattern = r"[a-z0-9\.\-+_]+@[a-z0-9\.\-+_]+\.[a-z]+"
+    email_removed_text = re.sub(pattern=pattern, repl='', string=text)
+    return email_removed_text
+
+def incident_id_remover(text):
+    pattern = r"INC\d*"
+    incident_id_removed_text = re.sub(pattern, '', text)
+    return incident_id_removed_text
+
+def digit_remover(text):
+    pattern = r"\d+"
+    digit_removed_text = re.sub(pattern, '', text)
+    return digit_removed_text
+
+def url_remover(text):
+    filtered_url_text = [l for l in text.split() if not urlparse(l).scheme]
+    url_removed_txt = ' '.join(filtered_url_text)
+    return url_removed_txt
+
+def noun_exctraction(text):
+    blob = TextBlob(text)
+    noun_phrases = []
+    for nouns in blob.noun_phrases:
+        noun_phrases.append(nouns)
+    return " ".join(noun_phrases)

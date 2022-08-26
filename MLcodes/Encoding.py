@@ -5,6 +5,7 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 from gensim.models import Word2Vec
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
+import nltk
 
 
 warnings.filterwarnings(action = 'ignore')
