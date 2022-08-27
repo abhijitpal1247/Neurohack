@@ -4,3 +4,7 @@ official_data/
 Results/
 temp/
 nohup.out
+neurohacksite/home/__pycache__
+MLcodes/__pycache__/
+neurohacksite/neurohacksite/__pycache__
+neurohacksite/home/migrations/
