@@ -20,9 +20,9 @@ def countvectorizer(corpus, stopwords, lowercase, ngram_range, max_features):
     vectorizer.fit(corpus)
     return vectorizer
 
-def tfidfvectorizer(corpus, stopwords, lowercase, ngram_range, max_features):
+def tfidfvectorizer(corpus, stopwords, lowercase, ngram_range, max_features, max_df=1.0, min_df=1):
     vectorizer = TfidfVectorizer(stop_words=stopwords, lowercase=lowercase, 
-    ngram_range=ngram_range, max_features=max_features)
+    ngram_range=ngram_range, max_features=max_features, max_df=max_df, min_df=min_df)
     vectorizer.fit(corpus)
     return vectorizer
 
