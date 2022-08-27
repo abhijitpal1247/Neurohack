@@ -26,3 +26,46 @@ df_combined['topic_num'] = doc_topics
 # %%
 df_combined.to_csv('../Results/topic_added.csv')
 # %%
+from wordcloud import WordCloud, STOPWORDS
+from nltk.corpus import stopwords
+from matplotlib import pyplot as plt
+
+for i in range(3):
+    stopwords_set = set(stopwords.words())
+    words_to_add=['hi','team']
+    stopwords_set.update(words_to_add)
+    stopwords_set.update(STOPWORDS)
+    word_cloud = WordCloud(
+                            background_color='blue',
+                            stopwords=stopwords_set,
+                            max_font_size=38,
+                            max_words=38, 
+                            random_state=42
+                            ).generate(str(df_combined.loc[df_combined['topic_num']==i]))
+    fig = plt.figure(figsize=(20,16))
+    plt.imshow(word_cloud)
+    plt.axis('off')
+    plt.show()
+    fig.savefig(f'../Results/worlcloud_{i}.png')
+# %%
+#%%
+for i in range(3):
+    documents, _, _ = model.search_documents_by_topic(topic_num=i, num_docs=10)
+    #%%
+    stopwords_set = set(stopwords.words())
+    words_to_add=['hi','team']
+    stopwords_set.update(words_to_add)
+    stopwords_set.update(STOPWORDS)
+    word_cloud = WordCloud(
+                            background_color='blue',
+                            stopwords=stopwords_set,
+                            max_font_size=38,
+                            max_words=38, 
+                            random_state=42
+                            ).generate(' '.join(documents))
+    fig = plt.figure(figsize=(20,16))
+    plt.imshow(word_cloud)
+    plt.axis('off')
+    plt.show()
+    fig.savefig(f'../Results/worlcloud_alt_{i}.png')
+# %%
