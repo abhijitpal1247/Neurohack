@@ -1,3 +1,13 @@
 {% extends 'home/base.html' %}
 {% block content %}
+
+<form method='post' action='{% url "neurohack-visualizations" %}'>
+    {%csrf_token%}
+    <label for="L1_Tag">Choose an L1_Tag:</label>
+    <select class="L1_Tag" id="L1_Tag" name='L1_Tag'>
+        {% for item in L1_Tag %}
+            <option value='{{item}}'>{{ item }}</option>
+        {% endfor %}
+    </select>
+</form>
 {% endblock %}
