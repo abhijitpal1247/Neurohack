@@ -30,3 +30,4 @@ Y_pred = logreg.predict(X_test)
 from sklearn.metrics import accuracy_score, f1_score
 print('Testing accuracy %s' % accuracy_score(Y_test, Y_pred))
 print('Testing F1 score: {}'.format(f1_score(Y_test, Y_pred, average='weighted')))
+# %%
