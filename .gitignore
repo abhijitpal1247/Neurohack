@@ -8,3 +8,4 @@ neurohacksite/home/__pycache__
 MLcodes/__pycache__/
 neurohacksite/neurohacksite/__pycache__
 neurohacksite/home/migrations/
+neurohacksite/home/ml_models/top2vec
