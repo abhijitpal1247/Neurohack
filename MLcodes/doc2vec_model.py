@@ -1,4 +1,5 @@
 #%%
+from re import L
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 from gensim.models.callbacks import CallbackAny2Vec
 import pandas as pd
@@ -55,12 +56,13 @@ dend = shc.dendrogram(shc.linkage(top_vec, method='ward'))
 # %%
 from sklearn.cluster import AgglomerativeClustering
 cluster = AgglomerativeClustering(n_clusters=None, affinity='euclidean', linkage='ward', 
-compute_full_tree=True, distance_threshold=200)
+compute_full_tree=True, distance_threshold=2)
 
 #%%
 # Cluster the data
-cluster.fit_predict(top_vec)
+res = cluster.fit_predict(top_vec)
 
+#%%
 print(f"Number of clusters = {1+np.amax(cluster.labels_)}")
 
 # Display the clustering, assigning cluster label to every datapoint 
@@ -71,3 +73,71 @@ print(cluster.labels_)
 print(f"SK Learn estimated number of clusters = {1+np.amax(cluster.labels_)}")
 print(" ")
 #%%
+# %%
+
+l1_dict = {}
+for i in range(res.shape[0]):
+    if res[i] in l1_dict.keys():
+        l1_dict[res[i]].append(i)
+    else:
+        l1_dict[res[i]] = [i]
+
+# %%
+print(l1_dict[0])
+# %%
+import sklearn
+for i in np.arange(0.1, 10.0, 0.1):
+    cluster = AgglomerativeClustering(n_clusters=None, affinity='euclidean', linkage='ward', 
+    compute_full_tree=True, distance_threshold=i)
+    res = cluster.fit_predict(top_vec)
+    print(f"{i}, Number of clusters = {1+np.amax(cluster.labels_)}")
+    try:
+        print(sklearn.metrics.silhouette_score(top_vec, res))
+    except Exception as e:
+        print(e)
+# %%
+from sklearn.cluster import AgglomerativeClustering
+cluster = AgglomerativeClustering(n_clusters=None, affinity='euclidean', linkage='ward', 
+compute_full_tree=True, distance_threshold=1.2000000000000002)
+
+#%%
+# Cluster the data
+res = cluster.fit_predict(top_vec)
+
+#%%
+print(f"Number of clusters = {1+np.amax(cluster.labels_)}")
+
+# Display the clustering, assigning cluster label to every datapoint 
+print("Classifying the points into clusters:")
+print(cluster.labels_)
+
+# Display the clustering graphically in a plot
+print(f"SK Learn estimated number of clusters = {1+np.amax(cluster.labels_)}")
+print(" ")
+#%%
+# %%
+
+l1_dict = {}
+for i in range(res.shape[0]):
+    if res[i] in l1_dict.keys():
+        l1_dict[res[i]].append(i)
+    else:
+        l1_dict[res[i]] = [i]
+
+# %%
+print(l1_dict[0])
+# %%
+l1_dict_per_topic = {}
+for i, j in l1_dict.items():
+    for k in j:
+        l1_dict_per_topic[k] = i
+# %%
+l1_topic = np.zeros((df.shape[0]))
+for row in df[['topic_num']].iterrows():
+    i, topic = row[0], row[1]['topic_num']
+    l1_topic[i] = l1_dict_per_topic[int(topic)]
+# %%
+df['l1_topic'] = l1_topic
+# %%
+df.to_csv('..\\Results\\l1_tagged_data.csv')
+# %%
