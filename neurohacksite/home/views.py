@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from .models import Ticketdata
 import numpy as np
 import plotly.express as px
+import plotly.graph_objects as go
 import pandas as pd
 from wordcloud import WordCloud, STOPWORDS
 from nltk.corpus import stopwords
@@ -28,8 +29,29 @@ def categorization(request):
      data.dropna(inplace=True)
      fig = px.treemap(data, path=["All_Tags", 'L1_Tag', 'L2_Tag'], values='count')
      fig.update_traces(root_color="lightgrey")
-     fig.update_layout(margin = dict(t=50, l=25, r=25, b=25))
+     fig.update_layout(margin = dict(t=50, l=25, r=25, b=25), title_text='Categorization of tickets into L1 and L2 tags', title_x = 0.5)
      graph = fig.to_html(full_html=False, default_height=500, default_width=1000)
+     if request.method == 'POST':
+
+          csv_file = request.FILES["csv_file"]
+          #file_data = csv_file.read().decode("utf-8")
+          df = pd.read_csv(csv_file)
+          df1 = df[['Description','L1_Tag', 'L2_Tag']]
+          df2 = pd.DataFrame(df1)
+          #print(type(df1))
+          fig = go.Figure(data=[go.Table(    header=dict(values=list(df2.columns),                
+                                             fill_color='paleturquoise',                
+                                             align='left'),    
+                                             cells=dict(values=[df2.Description, df2.L1_Tag, df2.L2_Tag],
+                                             fill_color='lavender',              
+                                             align='left'))])
+          fig.update_layout(margin = dict(t=50, l=25, r=25, b=25), title_text='Ticket Categorization', title_x = 0.5)
+          table = fig.to_html(full_html=False, default_height=500, default_width=1000)
+
+          desc = {'table': table, 'graph': graph}
+          return render(request, 'home/categorization.html', desc)
+            
+     
      context = {'graph': graph}
      return render(request, 'home/categorization.html', context)
 

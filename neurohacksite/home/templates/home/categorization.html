@@ -1,13 +1,37 @@
 {% extends 'home/base.html' %}
 {% block content %}
 
-<div style= "margin-left: auto;margin-right: auto;">
+<div style= "margin-left: auto;margin-right: auto;margin-top: 155px;">
     {% if graph %}
                 {{ graph|safe }}
                 {% else %}
-                <p>No graph was provided.</p>
+                <p>Show Treemap </p>
                 {% endif %}
                 
 </div>
-
+<!-- style= "margin-left: auto;margin-right: auto;" -->
+<div>
+<form action="" method="POST" enctype="multipart/form-data" class="form-inline"> 
+    {% csrf_token %}
+    <!-- col-md-3 col-sm-3 col-xs-12 -->
+    <div class="form-group">
+        <label for="name" class=" control-label">File: </label>
+        <!-- <div class="col-md-12"> -->
+        <input type="file" name="csv_file" id="csv_file" required="True" class="form-control">
+        <!-- </div>                     -->
+    </div>
+    <div class="form-group">                        <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3" style="margin-bottom:10px;">
+             <button class="btn btn-primary"> <span class="glyphicon glyphicon-upload" style="margin: right 100px;"></span>Upload </button>
+        </div> 
+    </div>
+    </form>
+</div>
+    <div style= "margin-left: auto;margin-right: auto;">
+        {% if table %}
+                    {{ table|safe }}
+                    {% else %}
+                    <p>Show Table </p>
+                    {% endif %}
+                    
+    </div>
 {% endblock %}
