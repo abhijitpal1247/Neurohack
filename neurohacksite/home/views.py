@@ -215,6 +215,8 @@ def anomaly_vizualization(request):
           DF['day']=pd.DatetimeIndex(DF.index).day
           DF.dropna(inplace=True)
           #print(DF, "z")
+          if day == "":
+               day=None
           if day is not None:
                DF_forest=DF[['month','Resolution time_hrs','year','day']]
                DF_forestm=DF_forest.loc[(DF_forest['month']==int(month)) & (DF_forest['year']==int(year))
@@ -226,7 +228,7 @@ def anomaly_vizualization(request):
                clf.fit(DF_forestm[to_model_columns])
           else:
                DF_forest=DF[['month','Resolution time_hrs','year']]
-               DF_forestm=DF_forest.loc[(DF_forest['month']==month) & (DF_forest['year']==year)]
+               DF_forestm=DF_forest.loc[(DF_forest['month']==int(month)) & (DF_forest['year']==int(year))]
                to_model_columns=['Resolution time_hrs']
                clf=IsolationForest(n_estimators=100, max_samples='auto', contamination=float(.15), \
                               max_features=1.0, bootstrap=False, n_jobs=-1, random_state=42, verbose=0)
@@ -249,7 +251,8 @@ def anomaly_vizualization(request):
           try:
                df_anomaly = anomaly_detection(ano_tickets,request.POST.get("month"),
                                          request.POST.get("year"),request.POST.get("day") )
-          except:
+          except Exception as e:
+               print(e)
                return render(request, 'home/index.html', context|{'error':"No entries found! Please select a valid date"})
           
           fig = px.line(df_anomaly.reset_index(), x='Created_time', y='Resolution time_hrs', color='anomaly', title='Anomaly Detection')
