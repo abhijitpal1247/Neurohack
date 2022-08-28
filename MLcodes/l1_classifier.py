@@ -8,10 +8,10 @@ from sklearn import utils
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 #%%
-df = pd.read_csv('..\\Results\\l1_tagged_data.csv')
+df = pd.read_csv('../Results/l1_tagged_data.csv')
 
 #%%
-model = Doc2Vec.load('..\\Results\\doc2vec')
+model = Doc2Vec.load('../Results/doc2vec_model')
 doc_vec = np.zeros((df.shape[0], 400))
 #%%
 for i in range(df.shape[0]):

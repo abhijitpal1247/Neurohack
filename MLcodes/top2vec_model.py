@@ -1,7 +1,7 @@
 #%%
 from top2vec import Top2Vec
 import pandas as pd
-
+#%%
 df_combined = pd.read_csv('../Results/processed_combined.csv')
 
 df_combined.dropna(inplace=True)
@@ -23,8 +23,9 @@ for i in range(docs.shape[0]):
     doc_topics[i] = model.get_documents_topics([i])[0][0]
 # %%
 df_combined['topic_num'] = doc_topics
+df_combined['data_feeded'] = docs
 # %%
-df_combined.to_csv('../Results/topic_added.csv')
+df_combined.to_csv('../Results/topic_added_sanity_check.csv')
 # %%
 from wordcloud import WordCloud, STOPWORDS
 from nltk.corpus import stopwords

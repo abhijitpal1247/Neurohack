@@ -6,7 +6,7 @@ import pandas as pd
 from tqdm import tqdm
 import numpy as np
 #%%
-df = pd.read_csv('..\\Results\\topic_added.csv')
+df = pd.read_csv('../Results/processed_combined.csv')
 #%%
 df.dropna(inplace=True)
 #%%

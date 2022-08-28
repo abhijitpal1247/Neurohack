@@ -1,30 +1,57 @@
 {% extends 'home/base.html' %}
 {% block content %}
-      <div class="container-fluid tm-content-container">
-        <ul class="cd-hero-slider mb-0 py-5">
-          <li class="px-5" data-page-no="1" style="margin-top: 100px;">
-            <div class="page-width-1 page-left">
-              <div class="d-flex position-relative tm-border-top tm-border-bottom intro-container">
-                <div class="intro-left tm-bg-dark">
-                  <h2 class="mb-4">Welcome to NeuroHack</h2>
-                  <p class="mb-4">
-                    This HTML template has a motion video background loop which is provided by <a rel="sponsored" href="https://getfreepictures.com" target="_blank">Get Free Pictures</a>. This is
-                    one-page responsive layout for your websites. Feel
-                  free to use this for a commercial purpose. </p>
-                  <p class="mb-0">
-                  You are not permitted to redistribute this template on your Free CSS collection websites. Please <a rel="nofollow" href="https://templatemo.com/contact" target="_blank">contact us</a> for more information. </p>
-                </div>
-                <div class="intro-right">
-                  <img src="static/img/home-img-1.jpg" alt="Image" class="img-fluid intro-img-1">
-                  <img src="static/img/home-img-2.jpg" alt="Image" class="img-fluid intro-img-2">
-                </div>
-                <div class="circle intro-circle-1"></div>
-                <div class="circle intro-circle-2"></div>
-                <div class="circle intro-circle-3"></div>
-                <div class="circle intro-circle-4"></div>
-              </div>
-         
-            </div>                      
+<form id="my_form" method='post' action='{% url "neurohack-anomaly-visualizations" %}'style="margin-bottom: 128px;margin-left: 50px;margin-top: -50;margin-top: 143px;">
+  {% csrf_token %}
+  <label for="day">Choose a day:</label>
+  <select class="day" id="day" name='day'>
+      <option value="">--Please choose an option--</option>
+      {% for item in day %}
+      {% if day_persist == item %}
+          <option value='{{ item }}'selected >{{ item }}</option>
+      {% else %} 
+          <option value='{{ item }}'>{{ item }}</option>
+      {% endif %}>
+      {% endfor %}
 
-            {% endblock %}
+  </select>
+  <label for="month">Choose a month:</label>
+  <select class="month" id="month" name='month'>
+      <option value="">--Please choose an option--</option>
+      {% for item in month %}
+      {% if month_persist == item %}
+          <option value='{{ item }}'selected>{{ item }}</option>
+      {% else %} 
+          <option value='{{ item }}'>{{ item }}</option>
+      {% endif %}
+      {% endfor %}
+      
+  </select>
+  <label for="year">Choose a year:</label>
+  <select class="year" id="year" name='year'>
+      <option value="">--Please choose an option--</option>
+      {% for item in year %}
+      {% if year_persist == item %}
+          <option value='{{ item }}'selected>{{ item }}</option>
+      {% else %} 
+          <option value='{{ item }}'>{{ item }}</option>
+      {% endif %}
+      {% endfor %}
+      
+  </select>
+ 
+  <input type="submit" class="btn btn-outline-primary btn-sm" onclick="submit_form()" value="Submit">
+</form>      
+
+<div style= "margin-left: auto;margin-right: auto;margin-top: 155px;">
+              {% if graph %}
+                {{ graph|safe }}
+              {% else %}
+              {% if error %}
+                <p> {{error}}</p>
+                {% endif %}
+              {% endif %}
+              
+</div>
+
+{% endblock %}
           
