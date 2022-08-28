@@ -1,13 +1,60 @@
 {% extends 'home/base.html' %}
 {% block content %}
 
-<form method='post' action='{% url "neurohack-visualizations" %}'>
-    {%csrf_token%}
-    <label for="L1_Tag">Choose an L1_Tag:</label>
+<form id="my_form" method='post' action='{% url "neurohack-visualizations" %}'style="margin-bottom: 128px;margin-left: 50px;margin-top: -50;margin-top: 143px;">
+    {% csrf_token %}
+    <label for="L1_Tag">Choose an L1 Tag:</label>
     <select class="L1_Tag" id="L1_Tag" name='L1_Tag'>
+        <option value="">--Please choose an option--</option>
         {% for item in L1_Tag %}
-            <option value='{{item}}'>{{ item }}</option>
+        {% if L1_Tag_input == item %}
+            <option value='{{ item }}'selected >{{ item }}</option>
+        {% else %} 
+            <option value='{{ item }}'>{{ item }}</option>
+        {% endif %}>
         {% endfor %}
+
     </select>
+    <label for="L2_Tag">Choose an L2 Tag:</label>
+    <select class="L2_Tag" id="L2_Tag" name='L2_Tag'>
+        <option value="">--Please choose an option--</option>
+        {% for item in L2_Tag %}
+        {% if L2_Tag_input == item %}
+            <option value='{{ item }}'selected>{{ item }}</option>
+        {% else %} 
+            <option value='{{ item }}'>{{ item }}</option>
+        {% endif %}
+        {% endfor %}
+        
+    </select>
+   
+    <input type="submit" class="btn btn-outline-primary btn-sm" onclick="submit_form()" value="Submit">
 </form>
+
+<div class="row" style="display: flex; margin: auto;">
+    <div class="column" style="flex: 33.33%; padding: 5px;">
+        <div style= "margin-left: auto;margin-right: auto;">
+                {% if graph1 %}
+                {{ graph1|safe }}
+                {% else %}
+                <p>Please Choose L1 and L2 Tag to generate WordCloud</p>
+                {% endif %}
+                
+        </div>
+    </div>
+
+      
+    <div class="column" style="flex: 33.33%; padding: 5px;">
+        <div style= "margin-left: auto;margin-right: auto;">
+    {% if graph2 %}
+                {{ graph2|safe }}
+                {% else %}
+                <p>Please Choose L1 and L2 Tag to generate WordCloud</p>
+                {% endif %}
+                
+        </div>
+    </div>
+</div>
+
+
 {% endblock %}
