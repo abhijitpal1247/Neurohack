@@ -262,7 +262,7 @@ def anomaly_vizualization(request):
           )
           fig.update_layout(yaxis_range=[-100,int(df_anomaly['Resolution time_hrs'].max())+3])
           #fig.show()
-          fig.update_layout(margin = dict(t=50, l=25, r=25, b=25), title_text='Categorization of tickets into L1 and L2 tags', title_x = 0.5)
+          fig.update_layout(margin = dict(t=50, l=25, r=25, b=25), title_text='Anomaly detection', title_x = 0.5)
           graph = fig.to_html(full_html=False, default_height=500, default_width=1000)
 
           context = context|{'graph': graph}
