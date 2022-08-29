@@ -1,0 +1,157 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+      <div class="container-fluid tm-content-container">
+        <ul class="cd-hero-slider mb-0 py-5">
+          <li class="px-5" data-page-no="1" style="margin-top: 100px;">
+            <div class="page-width-1 page-left">
+              <div class="d-flex position-relative tm-border-top tm-border-bottom intro-container">
+                <div class="intro-left tm-bg-dark">
+                  <h2 class="mb-4">Welcome to NeuroHack</h2>
+                  <p class="mb-4">
+                    This HTML template has a motion video background loop which is provided by <a rel="sponsored" href="https://getfreepictures.com" target="_blank">Get Free Pictures</a>. This is
+                    one-page responsive layout for your websites. Feel
+                  free to use this for a commercial purpose. </p>
+                  <p class="mb-0">
+                  You are not permitted to redistribute this template on your Free CSS collection websites. Please <a rel="nofollow" href="https://templatemo.com/contact" target="_blank">contact us</a> for more information. </p>
+                </div>
+                <div class="intro-right">
+                  <img src="static/img/home-img-1.jpg" alt="Image" class="img-fluid intro-img-1">
+                  <img src="static/img/home-img-2.jpg" alt="Image" class="img-fluid intro-img-2">
+                </div>
+                <div class="circle intro-circle-1"></div>
+                <div class="circle intro-circle-2"></div>
+                <div class="circle intro-circle-3"></div>
+                <div class="circle intro-circle-4"></div>
+              </div>
+              <div class="text-center">
+                <a href="#0" data-page-no="2" class="btn btn-primary tm-intro-btn tm-page-link">
+                  View Gallery
+                </a>
+              </div>            
+            </div>            
+          </li>
+          <li data-page-no="2" class="px-5" style="margin-top: 100px;">
+          
+            
+              <form method="POST">
+                {% csrf_token %}
+                <label for="L1">Choose L1 Tag:</label>
+                <select name="L1_Tag" id="L1">
+              
+                {% for item in L1_Tag %}
+                  <option value="{{ item }}" >{{item}}</option>
+                {% endfor %} 
+                </select>
+                <input type="submit" value="Submit">
+              </form>
+              <script src="https://code.jquery.com/jquery-3.5.1.js" 
+          integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" 
+            crossorigin="anonymous"></script>
+  
+            <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+            <script>
+            $(document).ready(function(){
+                $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+                    localStorage.setItem('activeTab', $(e.target).attr('href'));
+                });
+                var activeTab = localStorage.getItem('activeTab');
+                if(activeTab){
+                    $('#0 a[href="' + activeTab + '"]').tab('show');
+                }
+            });
+            </script>
+            
+          
+          
+          
+          
+          
+          </li>
+          
+          
+
+
+          <li data-page-no="3" class="px-5" style="margin-top: 100px;">
+            <div class="position-relative page-width-1 page-right tm-border-top tm-border-bottom">
+              <div class="circle intro-circle-1"></div>
+              <div class="circle intro-circle-2"></div>
+              <div class="circle intro-circle-3"></div>
+              <div class="circle intro-circle-4"></div>
+              <div class="tm-bg-dark content-pad">
+                <h2 class="mb-4">About our company</h2>
+                <p class="mb-4">
+                  You are <span class="highlight">allowed!</span> to use Astro Motion HTML Template for your websites. You are not allowed to re-distribute this template ZIP file on any Free CSS template collection website. Illegal redistribution is strongly prohibited.
+                </p>
+                <p>
+                  Praesent auctor rhoncus arcu, vitae blandit est vestibulum sit amet. Integer erat
+                  turpis, vestibulum pellentesque aliquam ultricies, finibus nec dui. Donec bibendum
+                  enim mi, at tristique leo feugiat at. Thank you for visiting Template Mo.
+                </p>
+                {% if graph %}
+                {{ graph|safe }}
+                {% else %}
+                <p>No graph was provided.</p>
+                {% endif %}
+
+
+              </div>
+
+            </div>
+          </li> 
+
+          
+          <li data-page-no="4" style="margin-top: 100px";>
+            
+            <div class="container">
+              <div class="row">
+                  <div class="col">
+                      <div class="our-team">
+                          <img src="static/img/10685701.PNG" alt="">
+                          <div class="team-content">
+                              <h3 class="team-title">Nikhil Doye<small>NAUT LTI</small></h3>
+                              
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col">
+                    <div class="our-team">
+                        <img src="static/img/Abhijit_Pal.png" alt="">
+                        <div class="team-content">
+                            <h3 class="team-title">Abhijit Pal<small>NAUT LTI</small></h3>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                  <div class="our-team">
+                      <img src="static/img/MicrosoftTeams-image (19).png" alt="">
+                      <div class="team-content">
+                          <h3 class="team-title">Sandra Jacob<small>NAUT LTI</small></h3>
+                          
+                      </div>
+                  </div>
+              </div>
+              <div class="col">
+                <div class="our-team">
+                    <img src="static/img/DSC_0202-01 (1).jpg" alt="">
+                    <div class="team-content">
+                        <h3 class="team-title">Ajith H<small>NAUT LTI</small></h3>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+              <div class="our-team">
+                  <img src="static/img/AKAS222.jpg" alt="">
+                  <div class="team-content">
+                      <h3 class="team-title">Akash Kirodiwal<small>NAUT LTI</small></h3>
+                      
+                  </div>
+              </div>
+          </div>
+              </div>
+            </div>
+            {% endblock %}
+          
