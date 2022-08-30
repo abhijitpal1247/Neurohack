@@ -263,7 +263,7 @@ def anomaly_vizualization(request):
           fig.update_layout(yaxis_range=[-100,int(df_anomaly['Resolution time_hrs'].max())+3])
           #fig.show()
           fig.update_layout(margin = dict(t=50, l=25, r=25, b=25), title_text='Anomaly detection', title_x = 0.5)
-          graph = fig.to_html(full_html=False, default_height=500, default_width=1000)
+          graph = fig.to_html(full_html=False, default_height=450, default_width=1000)
 
           context = context|{'graph': graph}
           context = context|{'day_persist':request.POST.get("day"),'month_persist':request.POST.get("month"),'year_persist':request.POST.get("year") }
