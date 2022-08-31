@@ -35,6 +35,7 @@ ano_tickets['Created_date'] = pd.to_datetime(ano_tickets["Created_time"]).dt.str
 ano_tickets['Created_month'] = pd.to_datetime(ano_tickets["Created_time"]).dt.strftime('%Y-%m')
 valid_dates = ano_tickets['Created_date'].unique()
 valid_months = ano_tickets['Created_month'].unique()
+L2_tags_anomaly = ano_tickets['L2_Tag'].unique()
 
 #print(f" valid dates format : {valid_dates[0]}\n valid months format : {valid_months[0]}")
 # print(ano_tickets.columns)
@@ -291,7 +292,7 @@ def visualizations(request):
 # anomaly detection
 def anomaly_vizualization(request):
      # context ={'day':list(range(1,32)),'month':list(range(1,13)),'year':list(range(2021,2023))}
-     context = {'valid_dates':valid_dates,'valid_months':valid_months}
+     context = {'valid_dates':valid_dates,'valid_months':valid_months, 'L2_Tag':L2_tags_anomaly}
      context = context|{'day_persist':1,'month_persist':1,'year_persist':2021 }
      
      def anomaly_detection(dataframe,column_field,month,year,day=None):
@@ -389,37 +390,48 @@ def anomaly_vizualization(request):
      if request.method == "POST":
           # try:
           feature = request.POST.get("selectField")
+          L2_Tag_input=request.POST.get("selectTag")
+          context = context|{'L2_Tag_input':L2_Tag_input}
+          context = context|{'day_persist':request.POST.get("selectDate"),'feature_persist': request.POST.get("selectField")}
           print(feature)
           # print(request.POST.get("selectDate"))
           year,month,day = request.POST.get("selectDate").split("-")
           # print(day, month, year)
-          df_anomaly_m, df_anomaly_d = anomaly_detection(ano_tickets,feature,month=month,
+          ano_df = ano_tickets.copy()
+          if L2_Tag_input!='All':
+               ano_df = ano_df.loc[(ano_tickets['L2_Tag']==L2_Tag_input)]
+          try:
+               df_anomaly_m, df_anomaly_d = anomaly_detection(ano_df,feature,month=month,
                                         year=year,day=day)
-          # except Exception as e:
-          #      print(e)
-          #      return render(request, 'home/index.html', context|{'error':"No entries found! Please select a valid date"})
+          except:
+               return render(request, 'home/index.html', context|{'error':"No entries found! Please select a valid date"})
           if feature=="Resolution time_hrs":
-               fig1 = px.line(df_anomaly_d.reset_index(), x='Created_time', y='Resolution time_hrs', color='anomaly_day', title=f'Anomaly Detection for {day}/{month}/{year}')
+               fig1 = px.scatter(df_anomaly_d.reset_index(), x='Created_time', y='Resolution time_hrs', color='anomaly_day', title=f'Anomaly Detection for {day}/{month}/{year}',color_discrete_map={
+                "yes": "#ff7f0e",
+                "no": "#1f77b4"})
 
                fig1.update_xaxes(
                rangeslider_visible=True,
                )
-               fig1.update_layout(yaxis_range=[-100,int(df_anomaly_d['Resolution time_hrs'].max())+3])
+               # fig1.update_layout(yaxis_range=[-100,int(df_anomaly_d['Resolution time_hrs'].max())+3])
                #fig.show()
-               fig1.update_layout(margin = dict(t=50, l=25, r=25, b=25), title_text=f'Anomaly Detection for {day}/{month}/{year}', title_x = 0.5)
+               fig1.update_layout(margin = dict(t=50, l=25, r=25, b=25), title_text=f'Anomaly Detection for \'{L2_Tag_input.lower()}\' tickets on {day}/{month}/{year}', title_x = 0.5)
                graph1 = fig1.to_html(full_html=False, default_height=450, default_width=1000)
 
                context = context|{'graph1': graph1}
 
-               fig2 = px.line(df_anomaly_m.reset_index(), x='Created_time', y='Resolution time_hrs', color='anomaly_month', title=f'Anomaly Detection for {month}')
+               fig2 = px.scatter(df_anomaly_m.reset_index(), x='Created_time', y='Resolution time_hrs', color='anomaly_month', title=f'Anomaly Detection for {month}',color_discrete_map={
+                "yes": "#ff7f0e",
+                "no": "#1f77b4"})
 
                fig2.update_xaxes(
                rangeslider_visible=True,
                )
-               fig2.update_layout(yaxis_range=[-100,int(df_anomaly_m['Resolution time_hrs'].max())+3])
+               # fig2.update_layout(yaxis_range=[-100,int(df_anomaly_m['Resolution time_hrs'].max())+3])
                #fig.show()
-               fig2.update_layout(margin = dict(t=50, l=25, r=25, b=25), title_text=f'Anomaly Detection for {month}/{year}', title_x = 0.5)
-               graph2 = fig2.to_html(full_html=False, default_height=450, default_width=1000)
+               fig2.update_layout(margin = dict(t=50, l=25, r=25, b=25), title_text=f'Anomaly Detection for \'{L2_Tag_input.lower()}\' tickets on {month}/{year}', title_x = 0.5)
+
+               graph2 = fig2.to_html(full_html=False, default_height=450, default_width=1000,)
 
                context = context|{'graph2': graph2}
 
@@ -427,31 +439,35 @@ def anomaly_vizualization(request):
                
                return render(request, 'home/index.html', context)
           elif feature=="Reassignment count":
-               fig1 = px.scatter(df_anomaly_d.reset_index(), x='Created_time', y='Reassignment_count', color='anomaly_day', title='Anomaly Detection')
+               fig1 = px.scatter(df_anomaly_d.reset_index(), x='Created_time', y='Reassignment_count', color='anomaly_day', title='Anomaly Detection',color_discrete_map={
+                "yes": "#ff7f0e",
+                "no": "#1f77b4"})
 
                fig1.update_xaxes(
                rangeslider_visible=True,
                )
                #fig1.update_layout(yaxis_range=[-100,int(df_anomaly_d['Reassignment count'].max())+3])
                #fig.show()
-               fig1.update_layout(margin = dict(t=50, l=25, r=25, b=25), title_text=f'Anomaly Detection for {day}/{month}/{year}', title_x = 0.5)
+               fig1.update_layout(margin = dict(t=50, l=25, r=25, b=25), title_text=f'Anomaly Detection for \'{L2_Tag_input.lower()}\' tickets on {day}/{month}/{year}', title_x = 0.5)
                graph1 = fig1.to_html(full_html=False, default_height=450, default_width=1000)
 
                context = context|{'graph1': graph1}
 
-               fig2 = px.scatter(df_anomaly_m.reset_index(), x='Created_time', y='Reassignment_count', color='anomaly_month', title='Anomaly Detection')
+               fig2 = px.scatter(df_anomaly_m.reset_index(), x='Created_time', y='Reassignment_count', color='anomaly_month', title='Anomaly Detection',color_discrete_map={
+                "yes": "#ff7f0e",
+                "no": "#1f77b4"})
 
                fig2.update_xaxes(
                rangeslider_visible=True,
                )
                #fig2.update_layout(yaxis_range=[-100,int(df_anomaly_m['Reassignment count'].max())+3])
                #fig.show()
-               fig2.update_layout(margin = dict(t=50, l=25, r=25, b=25), title_text=f'Anomaly Detection for {month}/{year}', title_x = 0.5)
+               fig2.update_layout(margin = dict(t=50, l=25, r=25, b=25), title_text=f'Anomaly Detection for \'{L2_Tag_input.lower()}\' tickets on {month}/{year}', title_x = 0.5)
                graph2 = fig2.to_html(full_html=False, default_height=450, default_width=1000)
 
                context = context|{'graph2': graph2}
 
-               context = context|{'day_persist':request.POST.get("selectDate"),'feature_persist': request.POST.get("selectField")}
+               
                
                return render(request, 'home/index.html', context)
      else:

@@ -1,5 +1,4 @@
 from django.db import models
-
 # Create your models here.
 # Create your models here.
 class Ticketdata(models.Model):
@@ -13,4 +12,5 @@ class Trend_data(models.Model):
     Created_time=models.TextField(null=True)
     Resolution_time=models.FloatField(null=True)
     Reassigment_count=models.IntegerField(null=True)
-    
+    L2_Tag = models.TextField(default=None, blank=True, null=True)
+    L1_Tag = models.TextField(default=None, blank=True, null=True)

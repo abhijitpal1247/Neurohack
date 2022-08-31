@@ -1,5 +1,4 @@
 {% extends 'home/base.html' %}
-{%load crispy_forms_tags %} 
 {% block content %}
 
 <div style= "margin-left: auto;margin-right: auto;margin-top: 155px;">
@@ -14,7 +13,6 @@
 <div>
 <form action="" method="POST" enctype="multipart/form-data" class="form-inline"> 
     {% csrf_token %}
-    {{ form|crispy }}
     <!-- col-md-3 col-sm-3 col-xs-12 -->
     
     <div class="form-group" style="margin-left: 516px; width: fit-content;">

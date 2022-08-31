@@ -36,13 +36,13 @@ wb.to_sql('home_ticketdata', engine,if_exists='append',index=False )
 # folder = "..//official_data//Tag_Data"
 # wb = pd.read_excel(os.path.join(folder,"Sample_data for L1 and L2 tags.xlsx"))
 #%%
-wb = pd.read_excel('../official_data/Ticket Trend Data/Trend_Data_1.xlsx')
+wb = pd.read_csv('../Results/final_tagged_anomaly_doc2vec.csv')
 #%%
 wb_copy = wb.copy()
 #%% check existing columns
 db_tab_cols = pd.read_sql("select * from home_trend_data where 1=2", engine).columns.tolist()
 #%%
-wb = wb[['Number','Created','Resolution time', 'Reassignment count']]
+wb = wb[['Number','Created','Resolution time', 'Reassignment count','L2_Tag','L1_Tag']]
 # wb['Short description'] = wb['Short description'].str.encode('unicode_escape')                            
 wb.columns = db_tab_cols[1:]
 #%% Convert dataframe to sql table 

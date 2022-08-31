@@ -1,9 +1,19 @@
 {% extends 'home/base.html' %}
-{%load crispy_forms_tags %} 
 {% block content %}
-<form id="my_form" method='post' action='{% url "neurohack-anomaly-visualizations" %}'style="margin-left: 322px;margin-top: 117px;">
+<p>{{ day_persist }}</p>
+<form id="my_form" method='post' action='{% url "neurohack-anomaly-visualizations" %}'style="margin:auto;margin-top: 117px;">
   {% csrf_token %}
-  {{ form|crispy }}
+  <label for="selectTag">Select a Ticket tag:</label>
+  <select name="selectTag" id="selectTag">    
+        <option value="All">All</option>
+        {% for item in L2_Tag %}
+        {% if L2_Tag_input == item %}
+            <option value='{{ item }}'selected>{{ item }}</option>
+        {% else %} 
+            <option value='{{ item }}'>{{ item }}</option>
+        {% endif %}
+        {% endfor %}
+  </select>
   <label for="selectField">Select a Field:</label>
   <select name="selectField" id="selectField">    
     {% if feature_persist == "Reassignment count" %}
@@ -18,7 +28,7 @@
     {%if day_persist != ""%}
         <input type="date" id="selectDate" name="selectDate" data-date-format="yyyy-mm-dd" value = {{day_persist}} required>
     {%else%}
-        <input type="date" id="selectDate" name="selectDate" data-date-format="yyyy-mm-dd" value = "2021-01-02" required>
+        <input type="date" id="selectDate" name="selectDate" data-date-format="yyyy-mm-dd" value = "2021-01-19" required>
     {%endif%}
   <!-- <label for="day">Choose a day:</label>
   <select class="day" id="day" name='day'>
@@ -79,7 +89,7 @@
       {{ graph2|safe }}
     {% else %}
     {% if error %}
-      <p> {{error}}</p>
+      <!-- <p> {{error}}</p> -->
       {% endif %}
     {% endif %}
     </div>
@@ -101,10 +111,11 @@
     
     $('#selectDate').datepicker({
         format: "yyyy-mm-dd",
+        defaultValue:"2022-02-19",
         autoclose: true,
         beforeShowDay: function (date) {
             var dt_ddmmyyyy = date.toISOString().split('T')[0]
-            console.log(dt_ddmmyyyy)
+            // console.log(dt_ddmmyyyy)
             //return valid_dates.indexOf(dt_ddmmyyyy) != -1
             //var dt_ddmmyyyy = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
             //console.log(dt_ddmmyyyy)
