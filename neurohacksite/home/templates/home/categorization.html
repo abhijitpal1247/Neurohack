@@ -1,8 +1,9 @@
 {% extends 'home/base.html' %}
+{%load crispy_forms_tags %} 
 {% block content %}
 
 <div style= "margin-left: auto;margin-right: auto;margin-top: 155px;">
-    {% if graph %}
+                {% if graph %}
                 {{ graph|safe }}
                 {% else %}
                 <p>Show Treemap </p>
@@ -13,15 +14,20 @@
 <div>
 <form action="" method="POST" enctype="multipart/form-data" class="form-inline"> 
     {% csrf_token %}
+    {{ form|crispy }}
     <!-- col-md-3 col-sm-3 col-xs-12 -->
-    <div class="form-group">
-        <label for="name" class=" control-label">File: </label>
+    
+    <div class="form-group" style="margin-left: 516px; width: fit-content;">
+        <label for="name" class=" control-label">Upload File to predict L1 and L2 Tags: </label>
         <!-- <div class="col-md-12"> -->
         <input type="file" name="csv_file" id="csv_file" required="True" class="form-control">
         <!-- </div>                     -->
     </div>
-    <div class="form-group">                        <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3" style="margin-bottom:10px;">
-             <button class="btn btn-primary"> <span class="glyphicon glyphicon-upload" style="margin: right 100px;"></span>Upload </button>
+    <br>
+    <div class="form-group">                        
+        <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3" style="margin-bottom:10px;">
+             <button class="btn btn-outline-primary btn-sm p-1" style="margin-left: 645px;"> 
+                <span class="glyphicon glyphicon-upload" ></span>Upload </button>
         </div> 
     </div>
     </form>
@@ -30,7 +36,7 @@
         {% if table %}
                     {{ table|safe }}
                     {% else %}
-                    <p>Show Table </p>
+                    <p></p>
                     {% endif %}
                     
     </div>

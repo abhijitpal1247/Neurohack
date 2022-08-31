@@ -1,9 +1,25 @@
 {% extends 'home/base.html' %}
+{%load crispy_forms_tags %} 
 {% block content %}
-<form id="my_form" method='post' action='{% url "neurohack-anomaly-visualizations" %}'style="margin-bottom: 128px;margin-left: 50px;margin-top: -50;margin-top: 143px;">
+<form id="my_form" method='post' action='{% url "neurohack-anomaly-visualizations" %}'style="margin-left: 322px;margin-top: 117px;">
   {% csrf_token %}
+  {{ form|crispy }}
+  <label for="selectField">Select a Field:</label>
+  <select name="selectField" id="selectField">    
+    {% if feature_persist == "Reassignment count" %}
+    <option value="Reassignment count" selected>Reassignment count</option>
+    <option value="Resolution time_hrs">Resolution time (hrs)</option>
+    {%else%}
+    <option value="Resolution time_hrs" selected>Resolution time (hrs)</option>
+    <option value="Reassignment count">Reassignment count</option>
+    {%endif%}
+  </select>
     <label for="selectDate">Select a date:</label>
-    <input type="date" id="selectDate" name="selectDate" data-date-format="yyyy-mm-dd" >
+    {%if day_persist != ""%}
+        <input type="date" id="selectDate" name="selectDate" data-date-format="yyyy-mm-dd" value = {{day_persist}} required>
+    {%else%}
+        <input type="date" id="selectDate" name="selectDate" data-date-format="yyyy-mm-dd" value = "2021-01-02" required>
+    {%endif%}
   <!-- <label for="day">Choose a day:</label>
   <select class="day" id="day" name='day'>
       <option value="">--Please choose an option--</option>
@@ -41,12 +57,13 @@
       
   </select> -->
  
-  <input type="submit" class="btn btn-outline-primary btn-sm" onclick="submit_form()" value="Submit">
+  <input type="submit" class="btn btn-outline-primary btn-sm p-1" onclick="submit_form()" value="Submit">
+  <!-- <button type="submit" class="">Confirm identity</button> -->
 </form>      
-
 <div style= "margin-left: auto;margin-right: auto;margin-top: 155px;">
-              {% if graph %}
-                {{ graph|safe }}
+    <div style=" margin-top: -135px;">
+              {% if graph1 %}
+                {{ graph1|safe }}
               {% else %}
               {% if error %}
                 <p> {{error}}</p>
@@ -54,7 +71,19 @@
               {% endif %}
               
 </div>
+</div>
 
+<div style= "margin-left: auto;margin-right: auto;margin-top: 155px;">
+    <div style= "margin-top: -139px;">
+    {% if graph2 %}
+      {{ graph2|safe }}
+    {% else %}
+    {% if error %}
+      <p> {{error}}</p>
+      {% endif %}
+    {% endif %}
+    </div>
+</div>
 
 {% endblock %}
 

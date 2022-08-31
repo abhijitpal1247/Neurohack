@@ -12,4 +12,5 @@ class Trend_data(models.Model):
     ticket_number = models.TextField()
     Created_time=models.TextField(null=True)
     Resolution_time=models.FloatField(null=True)
+    Reassigment_count=models.IntegerField(null=True)
     

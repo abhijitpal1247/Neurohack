@@ -1,10 +1,12 @@
 {% extends 'home/base.html' %}
+{%load crispy_forms_tags %} 
 {% block content %}
 
-<form id="my_form" method='post' action='{% url "neurohack-visualizations" %}'style="margin-bottom: 128px;margin-left: 50px;margin-top: -50;margin-top: 143px;">
+<form id="my_form" method='post' action='{% url "neurohack-visualizations" %}'style="margin-bottom: 128px;margin-left: 206px;margin-top: -50;margin-top: 143px;">
     {% csrf_token %}
+    {{ form|crispy }}
     <label for="L1_Tag">Choose an L1 Tag:</label>
-    <select class="L1_Tag" id="L1_Tag" name='L1_Tag'>
+    <select class="L1_Tag" id="L1_Tag" name='L1_Tag'  style="width: 243px;">
         <option value="">--Please choose an option--</option>
         {% for item in L1_Tag %}
         {% if L1_Tag_input == item %}
@@ -16,7 +18,7 @@
 
     </select>
     <label for="L2_Tag">Choose an L2 Tag:</label>
-    <select class="L2_Tag" id="L2_Tag" name='L2_Tag'>
+    <select class="L2_Tag" id="L2_Tag" name='L2_Tag'style="width: 244px;">
         <option value="">--Please choose an option--</option>
         {% for item in L2_Tag %}
         {% if L2_Tag_input == item %}
@@ -28,10 +30,10 @@
         
     </select>
    
-    <input type="submit" class="btn btn-outline-primary btn-sm" onclick="submit_form()" value="Submit">
+    <input type="submit" class="btn btn-outline-primary btn-sm p-1" onclick="submit_form()" value="Submit">
 </form>
 
-<div class="row" style="display: flex; margin: auto;">
+<div class="row" style="display: flex; margin: auto;margin-top: -101px;">
     <div class="column" style="flex: 33.33%; padding: 5px;">
         <div style= "margin-left: auto;margin-right: auto;">
                 {% if graph1 %}
