@@ -17,12 +17,23 @@ from top2vec import Top2Vec
 from .preprocess import contraction_expander,url_remover,email_remover,removal_html_tags,digit_remover,special_character_removal,stopwords_removal,lemmatize          
 from .preprocess import special_character_removal
 import pickle
+import json
 # Create your views here.
 
 model = Top2Vec.load('home/ml_models/top2vec')
 ano_tickets = pd.DataFrame(list(Trend_data.objects.all().values()))
+ano_tickets['Created_date'] = pd.to_datetime(ano_tickets["Created_time"]).dt.strftime('%Y-%m-%d')
+ano_tickets['Created_month'] = pd.to_datetime(ano_tickets["Created_time"]).dt.strftime('%Y-%m')
+valid_dates = ano_tickets['Created_date'].unique()
+valid_months = ano_tickets['Created_month'].unique()
+
+#print(f" valid dates format : {valid_dates[0]}\n valid months format : {valid_months[0]}")
 #print(ano_tickets.columns)
 
+valid_dates = json.dumps(valid_dates.tolist())
+valid_months = json.dumps(valid_months.tolist())
+#print(valid_months)
+#print(valid_dates)
 
 
 with open('../Results/tag_groups.pkl', 'rb') as file:
@@ -202,7 +213,8 @@ def visualizations(request):
 
 # anomaly detection
 def anomaly_vizualization(request):
-     context ={'day':list(range(1,32)),'month':list(range(1,13)),'year':list(range(2021,2023))}
+     # context ={'day':list(range(1,32)),'month':list(range(1,13)),'year':list(range(2021,2023))}
+     context = {'valid_dates':valid_dates,'valid_months':valid_months}
      context = context|{'day_persist':1,'month_persist':1,'year_persist':2021 }
      def anomaly_detection(dataframe,month,year,day=None):
           dataframe["Created_time"] = pd.to_datetime(dataframe["Created_time"])
@@ -249,8 +261,11 @@ def anomaly_vizualization(request):
      
      if request.method == "POST":
           try:
-               df_anomaly = anomaly_detection(ano_tickets,request.POST.get("month"),
-                                         request.POST.get("year"),request.POST.get("day") )
+               print(request.POST.get("selectDate"))
+               year,month,day = request.POST.get("selectDate").split("-")
+               print(day, month, year)
+               df_anomaly = anomaly_detection(ano_tickets,month=month,
+                                         year=year,day=day)
           except Exception as e:
                print(e)
                return render(request, 'home/index.html', context|{'error':"No entries found! Please select a valid date"})

@@ -2,7 +2,9 @@
 {% block content %}
 <form id="my_form" method='post' action='{% url "neurohack-anomaly-visualizations" %}'style="margin-bottom: 128px;margin-left: 50px;margin-top: -50;margin-top: 143px;">
   {% csrf_token %}
-  <label for="day">Choose a day:</label>
+    <label for="selectDate">Select a date:</label>
+    <input type="date" id="selectDate" name="selectDate" data-date-format="yyyy-mm-dd" >
+  <!-- <label for="day">Choose a day:</label>
   <select class="day" id="day" name='day'>
       <option value="">--Please choose an option--</option>
       {% for item in day %}
@@ -37,7 +39,7 @@
       {% endif %}
       {% endfor %}
       
-  </select>
+  </select> -->
  
   <input type="submit" class="btn btn-outline-primary btn-sm" onclick="submit_form()" value="Submit">
 </form>      
@@ -52,6 +54,74 @@
               {% endif %}
               
 </div>
+
+
+{% endblock %}
+
+{% block scriptblock %}
+
+<!-- var array = [
+    {% for x in valid_dates %}
+        {{x}}
+    {% endfor  %} ] -->
+<script>
+    var valid_dates = {{valid_dates|safe}}
+    //var onlyThisDates = ['12/11/2015', '13/11/2015', '14/11/2015'];
+ //   $('#selectDate').focusin( function()
+ //    {
+    
+    $('#selectDate').datepicker({
+        format: "yyyy-mm-dd",
+        autoclose: true,
+        beforeShowDay: function (date) {
+            var dt_ddmmyyyy = date.toISOString().split('T')[0]
+            console.log(dt_ddmmyyyy)
+            //return valid_dates.indexOf(dt_ddmmyyyy) != -1
+            //var dt_ddmmyyyy = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+            //console.log(dt_ddmmyyyy)
+             if (valid_dates.indexOf(dt_ddmmyyyy) != -1) {
+            //     console.log(typeof valid_dates[0])
+            //     return [true, ''];
+                 return {
+                     tooltip: 'This date is enabled',
+                     classes: 'highlight',
+                     enabled: true
+                };
+            } else {
+                //console.log("else cond")
+                return {enabled: false}
+                //return [false, ''];
+            }
+        }
+    });
+//});
+    //var onlyThisDates = {{valid_dates|safe}}
+    //console.log("allowed dates",onlyThisDates)
+    
+// $('#selectDate').datepicker({
+//     format: "dd/mm/yyyy",
+//     autoclose: true,
+//     beforeShowDay: function (date) {
+//         var dt_ddmmyyyy = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+//         //console.log("current date",dt_ddmmyyyy)
+//         //return (onlyThisDates.indexOf(dt_ddmmyyyy) != -1);
+//         //var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
+//         if (onlyThisDates.indexOf(dt_ddmmyyyy) != -1) {
+//             console.log("ifcondition")
+//             // return {
+//             //     tooltip: 'This date is enabled',
+//             //     classes: 'active'
+//             //};
+//             return [false, ''];
+            
+//         } else {
+//             console.log("elsecondition")
+//             return [true, ''];
+//             // return false;
+//         }
+//     }
+// });
+ </script>
 
 {% endblock %}
           

@@ -37,7 +37,10 @@ h2 {
 }
 
 .highlight {
-    color: #99FF66;
+    background-color: rgb(222, 228, 252);
+    border-radius: 0% !important;
+    font-weight: bolder;
+    color: #150f63;
 }
 
 .page-container {
