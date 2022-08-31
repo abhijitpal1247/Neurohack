@@ -42,11 +42,10 @@ wb_copy = wb.copy()
 #%% check existing columns
 db_tab_cols = pd.read_sql("select * from home_trend_data where 1=2", engine).columns.tolist()
 #%%
-wb = wb[['Number','Created','Resolution time']]
+wb = wb[['Number','Created','Resolution time', 'Reassignment count']]
 # wb['Short description'] = wb['Short description'].str.encode('unicode_escape')                            
 wb.columns = db_tab_cols[1:]
 #%% Convert dataframe to sql table 
 #    
-
 wb.to_sql('home_trend_data', engine,if_exists='append',index=False )
 # %%

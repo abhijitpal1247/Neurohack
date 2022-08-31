@@ -9,3 +9,5 @@ MLcodes/__pycache__/
 neurohacksite/neurohacksite/__pycache__
 neurohacksite/home/migrations/
 neurohacksite/home/ml_models/top2vec
+*.log
+neurohacksite/home/ml_models/top2vec_reduced
